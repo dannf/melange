@@ -17,6 +17,7 @@ package build
 import (
 	"context"
 	"embed"
+        "encoding/json"
 	"fmt"
 	"maps"
 	"os"
@@ -203,9 +204,15 @@ func (r *pipelineRunner) runPipeline(ctx context.Context, pipeline *config.Pipel
 		debugOption = 'x'
 	}
 
+        pipeline_json, err := json.Marshal(pipeline)
+        if err != nil {
+                return false, fmt.Errorf("unable to encode pipeline: %w", err)
+        }
+
 	// Pipelines can have their own environment variables, which override the global ones.
 	envOverride := map[string]string{
 		"PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "MELANGE_PIPELINE": string(pipeline_json),
 	}
 
 	for k, v := range pipeline.Environment {

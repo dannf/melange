@@ -236,7 +236,7 @@ func (c *Compiled) compilePipeline(ctx context.Context, sm *SubstitutionMap, pip
 
 		for k := range with {
 			if _, ok := pipeline.Inputs[k]; !ok {
-				return fmt.Errorf("undefined input %q to pipeline %q", k, pipeline.Uses)
+				//return fmt.Errorf("undefined input %q to pipeline %q", k, pipeline.Uses)
 			}
 		}
 
